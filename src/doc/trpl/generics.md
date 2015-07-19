@@ -122,3 +122,13 @@ let float_origin = Point { x: 0.0, y: 0.0 };
 
 Similarly to functions, the `<T>` is where we declare the generic parameters,
 and we then use `x: T` in the type declaration, too.
+
+When you want to add an implementation for the generic struct, you just
+declare the type parameter after the `impl`:
+
+```rust
+impl<T> Point<T> { ... }
+```
+
+If the two `<T>`s feel redundant, read the [section on traits][traits] to see
+more complex declarations.

@@ -152,6 +152,67 @@ We get a compile-time error:
 error: the trait `HasArea` is not implemented for the type `_` [E0277]
 ```
 
+## Trait-constrained implementations
+
+Trait constraints also can apply to implementations for generic structs.  Just
+append the constraint when you declare type parameters. Here is a new type
+`Rectangle` and its operation `is_square`:
+
+```rust
+struct Rectangle<T> {
+    x: T,
+    y: T,
+    width: T,
+    height: T,
+}
+
+impl<T: Eq> Rectangle<T> {
+    fn is_square(&self) -> bool {
+        self.width == self.height
+    }
+}
+
+fn main() {
+    let mut r = Rectangle {
+        x: 0,
+        y: 0,
+        width: 47,
+        height: 47,
+    };
+
+    assert!(r.is_square());
+
+    r.height = 42;
+    assert!(!r.is_square());
+}
+```
+
+`is_square` needs to check that the sides are equal, so the sides must be of a
+type that implements the `core::cmp::Eq` trait:
+
+```rust,ignore
+impl<T: Eq> Rectangle<T> { ... }
+```
+
+Now, a rectangle can be defined in terms of any type that reliably compares as
+equal. Here, we instantiate a `Rectangle` with integers. If you try it with
+floats, however, the compiler refuses:
+
+```text
+error: the trait `core::cmp::Eq` is not implemented for the type `f64`
+```
+
+Why?  Floats don't reliably compare as equal, because `NaN != NaN`. Therefore
+they don't (and shouldn't) implement `core::cmp::Eq`.  If you want to accept
+floats as well, switch out `Eq` with the more lenient
+[`PartialEq`][PartialEq]. This is probably fine for `Rectangle::is_square`,
+which will return `false` for rectangles with `NaN` sides: `NaN`-sized
+rectangles can't reasonably be seen as squares, after all.
+
+[PartialEq]: ../core/cmp/trait.PartialEq.html
+
+# Rules for implementing traits
+
 So far, we’ve only added trait implementations to structs, but you can
 implement a trait for any type. So technically, we _could_ implement `HasArea`
 for `i32`:
