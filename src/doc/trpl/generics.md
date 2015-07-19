@@ -124,11 +124,31 @@ Similarly to functions, the `<T>` is where we declare the generic parameters,
 and we then use `x: T` in the type declaration, too.
 
 When you want to add an implementation for the generic struct, you just
-declare the type parameter after the `impl`:
+declare the type parameter after the `impl`. However, this `impl` can't
+accomplish much, since it doesn't know anything about `T`.  It can only do the
+simplest of manipulations:
 
-```rust
-impl<T> Point<T> { ... }
+```rust,ignore
+impl<T> Point<T> {
+    // Swaps values, no type knowledge needed
+    fn swap(&mut self) {
+        std::mem::swap(&mut self.x, &mut self.y);
+    }
+
+    // Will not compile
+    fn distance_from_origin(&self) -> T {
+        (self.x.powi(2) + self.y.powi(2)).sqrt()
+    }
+}
 ```
 
-If the two `<T>`s feel redundant, read the [section on traits][traits] to see
-more complex declarations.
+Rust can't square `self.x` or `self.y`, because it doesn't know whether their
+type `T` has a method `powi`. Even without the `powi` and `sqrt` calls we'd be
+stuck: there's no way of knowing what the operator `+` means for `T`.
+
+Bare type parameters do have their uses, e.g. for plain container types like
+[`Vec<T>`][Vec]. We can give our implementation more power, though: read the
+[section on traits][traits] to see how.
+
+[traits]: traits.html
+[Vec]: ../std/vec/struct.Vec.html
