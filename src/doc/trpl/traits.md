@@ -211,6 +211,14 @@ rectangles can't reasonably be seen as squares, after all.
 
 [PartialEq]: ../core/cmp/trait.PartialEq.html
 
+Here we defined a new struct `Rectangle` that accepts numbers of any
+precision, as long as they can compare as equal. Could we do the same for our
+`HasArea` structs, `Square` and `Circle`? Yes, but they need multiplication,
+and to work with that we need to know more about [operator
+traits][operators-and-overloading].
+
+[operators-and-overloading]: operators-and-overloading.html
+
 # Rules for implementing traits
 
 So far, we’ve only added trait implementations to structs, but you can
