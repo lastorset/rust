@@ -101,11 +101,6 @@ fn takes_two_things<T, U>(x: T, y: U) {
 }
 ```
 
-Generic functions are most useful with ‘trait bounds’, which we’ll cover in the
-[section on traits][traits].
-
-[traits]: traits.html
-
 ## Generic structs
 
 You can store a generic type in a `struct` as well:
@@ -138,3 +133,12 @@ impl<T> Point<T> {
     }
 }
 ```
+
+So far you’ve seen generics that take absolutely any type. These are useful in
+many cases: you’ve already seen `Option<T>`, and later you’ll meet universal
+container types like [`Vec<T>`][Vec]. On the other hand, often you want to
+trade that flexibility for increased expressive power. Read about [trait
+bounds][traits] to see why and how.
+
+[traits]: traits.html
+[Vec]: ../std/vec/struct.Vec.html
