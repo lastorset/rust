@@ -101,11 +101,6 @@ fn takes_two_things<T, U>(x: T, y: U) {
 }
 ```
 
-Generic functions are most useful with ‘trait bounds’, which we’ll cover in the
-[section on traits][traits].
-
-[traits]: traits.html
-
 ## Generic structs
 
 You can store a generic type in a `struct` as well:
@@ -124,31 +119,21 @@ Similarly to functions, the `<T>` is where we declare the generic parameters,
 and we then use `x: T` in the type declaration, too.
 
 When you want to add an implementation for the generic struct, you just
-declare the type parameter after the `impl`. However, this `impl` can't
-accomplish much, since it doesn't know anything about `T`.  It can only do the
-simplest of manipulations:
+declare the type parameter after the `impl`:
 
-```rust,ignore
+```rust
 impl<T> Point<T> {
-    // Swaps values, no type knowledge needed
     fn swap(&mut self) {
         std::mem::swap(&mut self.x, &mut self.y);
-    }
-
-    // Will not compile
-    fn distance_from_origin(&self) -> T {
-        (self.x.powi(2) + self.y.powi(2)).sqrt()
     }
 }
 ```
 
-Rust can't square `self.x` or `self.y`, because it doesn't know whether their
-type `T` has a method `powi`. Even without the `powi` and `sqrt` calls we'd be
-stuck: there's no way of knowing what the operator `+` means for `T`.
-
-Bare type parameters do have their uses, e.g. for plain container types like
-[`Vec<T>`][Vec]. We can give our implementation more power, though: read the
-[section on traits][traits] to see how.
+So far you’ve seen generics that take absolutely any type. These are useful in
+many cases: you’ve already seen `Option<T>`, and later you’ll meet universal
+container types like [`Vec<T>`][Vec]. On the other hand, often you want to
+trade that flexibility for increased expressive power. Read about [trait
+bounds][traits] to see how.
 
 [traits]: traits.html
 [Vec]: ../std/vec/struct.Vec.html
