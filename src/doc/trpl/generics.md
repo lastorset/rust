@@ -57,7 +57,7 @@ enum Result<T, E> {
 ```
 
 This type is generic over _two_ types: `T` and `E`. By the way, the capital letters
-can be any letter you’d like. We could define `Result<T, E>` as:
+can be any letter or word you’d like. We could define `Result<T, E>` as:
 
 ```rust
 enum Result<A, Z> {
