@@ -166,7 +166,7 @@ struct Rectangle<T> {
     height: T,
 }
 
-impl<T: Eq> Rectangle<T> {
+impl<T: PartialEq> Rectangle<T> {
     fn is_square(&self) -> bool {
         self.width == self.height
     }
@@ -188,34 +188,22 @@ fn main() {
 ```
 
 `is_square` needs to check that the sides are equal, so the sides must be of a
-type that implements the `core::cmp::Eq` trait:
+type that implements the [`core::cmp::PartialEq`][PartialEq] trait:
 
 ```rust,ignore
-impl<T: Eq> Rectangle<T> { ... }
+impl<T: PartialEq> Rectangle<T> { ... }
 ```
 
-Now, a rectangle can be defined in terms of any type that reliably compares as
-equal. Here, we instantiate a `Rectangle` with integers. If you try it with
-floats, however, the compiler refuses:
-
-```text
-error: the trait `core::cmp::Eq` is not implemented for the type `f64`
-```
-
-Why?  Floats don't reliably compare as equal, because `NaN != NaN`. Therefore
-they don't (and shouldn't) implement `core::cmp::Eq`.  If you want to accept
-floats as well, switch out `Eq` with the more lenient
-[`PartialEq`][PartialEq]. This is probably fine for `Rectangle::is_square`,
-which will return `false` for rectangles with `NaN` sides: `NaN`-sized
-rectangles can't reasonably be seen as squares, after all.
+Now, a rectangle can be defined in terms of any type that can be compared for
+equality.
 
 [PartialEq]: ../core/cmp/trait.PartialEq.html
 
 Here we defined a new struct `Rectangle` that accepts numbers of any
-precision, as long as they can compare as equal. Could we do the same for our
-`HasArea` structs, `Square` and `Circle`? Yes, but they need multiplication,
-and to work with that we need to know more about [operator
-traits][operators-and-overloading].
+precision—really, objects of pretty much any type—as long as they can be
+compared for equality. Could we do the same for our `HasArea` structs, `Square`
+and `Circle`? Yes, but they need multiplication, and to work with that we need
+to know more about [operator traits][operators-and-overloading].
 
 [operators-and-overloading]: operators-and-overloading.html
 
