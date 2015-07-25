@@ -78,7 +78,7 @@ fn print_area<T: HasArea>(shape: T) {
 }
 ```
 
-The syntax `<T: HasArea>` means `any type that implements the HasArea trait`.
+The syntax `<T: HasArea>` means “any type that implements the `HasArea` trait”.
 Because traits define function type signatures, we can be sure that any type
 which implements `HasArea` will have an `.area()` method.
 
@@ -235,7 +235,7 @@ impl HasArea for i32 {
 It is considered poor style to implement methods on such primitive types, even
 though it is possible.
 
-This may seem like the Wild West, but there are two other restrictions around
+This may seem like the Wild West, but there are two restrictions around
 implementing traits that prevent this from getting out of hand. The first is
 that if the trait isn’t defined in your scope, it doesn’t apply. Here’s an
 example: the standard library provides a [`Write`][write] trait which adds
@@ -400,10 +400,10 @@ This shows off the additional feature of `where` clauses: they allow bounds
 where the left-hand side is an arbitrary type (`i32` in this case), not just a
 plain type parameter (like `T`).
 
-## Default methods
+# Default methods
 
-There’s one last feature of traits we should cover: default methods. It’s
-easiest just to show an example:
+If you already know how a typical implementor will define a method, you can
+let your trait supply a default:
 
 ```rust
 trait Foo {
