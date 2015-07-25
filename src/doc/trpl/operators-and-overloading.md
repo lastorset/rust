@@ -131,5 +131,5 @@ impl<T> HasArea<T> for Square<T>
 The `area` method requires that we can multiply the sides, so we declare that
 type `T` must implement `std::ops::Mul`. Like `Add`, mentioned above, `Mul`
 itself takes an `Output` parameter: since we know that numbers don't change
-type when multiplied, we set it too to `T`. `T` also must support copying, so
+type when multiplied, we also set it to `T`. `T` must also support copying, so
 Rust doesn't try to move `self.side` into the return value.
