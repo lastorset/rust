@@ -47,6 +47,8 @@ As you can see, the `trait` block looks very similar to the `impl` block,
 but we don’t define a body, just a type signature. When we `impl` a trait,
 we use `impl Trait for Item`, rather than just `impl Item`.
 
+## Traits bounds for generic functions
+
 We can use traits to constrain our generics. Consider this function, which
 does not compile:
 
