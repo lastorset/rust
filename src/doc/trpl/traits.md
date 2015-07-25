@@ -155,7 +155,7 @@ We get a compile-time error:
 error: the trait `HasArea` is not implemented for the type `_` [E0277]
 ```
 
-## Trait-constrained implementations
+## Traits for generic structs
 
 Your generic structs can also benefit from trait constraints. All you need to
 do is append the constraint when you declare type parameters. Here is a new
